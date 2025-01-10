@@ -1,0 +1,22 @@
+CREATE TABLE users (
+  id VARCHAR(255) PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE access_tokens (
+  id VARCHAR(255) PRIMARY KEY,
+  token VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE refresh_tokens (
+  token VARCHAR(255) PRIMARY KEY,
+  access_token_id VARCHAR(255) REFERENCES access_tokens(id),
+  device_id VARCHAR(255) NOT NULL,
+  user_id VARCHAR(255) REFERENCES users(id),
+  UNIQUE (device_id, user_id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
